@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitGrade — AI Training for Coaches & Gyms</title>
+  <meta name="description" content="FitGrade is the all-in-one coaching platform with AI-generated training plans, client management, and session tracking."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #A8FF3E;
+      --green-dim: #7ACC2A;
+      --black: #080A07;
+      --surface: #0F1210;
+      --card: #141A14;
+      --border: #1E2B1E;
+      --text: #E8F5E0;
+      --muted: #6A7D6A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--black);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(8,10,7,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--green);
+    }
+    .nav-cta {
+      background: var(--green);
+      color: var(--black);
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(168,255,62,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(168,255,62,0.1);
+      border: 1px solid rgba(168,255,62,0.25);
+      color: var(--green);
+      font-size: 13px; font-weight: 500;
+      padding: 6px 14px; border-radius: 100px;
+      margin-bottom: 32px;
+      width: fit-content;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-tag::before { content: '●'; font-size: 8px; }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(64px, 10vw, 130px);
+      line-height: 0.9;
+      letter-spacing: 2px;
+      color: var(--text);
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 span { color: var(--green); }
+    .hero-sub {
+      max-width: 560px;
+      margin-top: 28px;
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--muted);
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-actions {
+      display: flex; gap: 16px; align-items: center;
+      margin-top: 48px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--green);
+      color: var(--black);
+      padding: 16px 32px;
+      border-radius: 8px;
+      font-weight: 700; font-size: 16px;
+      text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-secondary {
+      color: var(--muted);
+      font-size: 15px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--text); }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      background: var(--surface);
+    }
+    .marquee {
+      display: flex; gap: 64px;
+      animation: marquee 20s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 15px;
+      letter-spacing: 3px;
+      color: var(--muted);
+    }
+    .marquee span.accent { color: var(--green); }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* SECTION */
+    section { padding: 100px 48px; }
+    .section-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 3px;
+      color: var(--green); text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 64px);
+      letter-spacing: 1px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 480px;
+      font-weight: 300;
+    }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+      margin-top: 64px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .feature-card {
+      background: var(--card);
+      padding: 40px 36px;
+      transition: background 0.25s;
+      position: relative;
+    }
+    .feature-card:hover { background: #182018; }
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .feature-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .feature-card p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 48px;
+      margin-top: 64px;
+    }
+    .step { position: relative; }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 72px;
+      color: rgba(168,255,62,0.12);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .step h3 {
+      font-size: 18px; font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .step p {
+      font-size: 14px; line-height: 1.7;
+      color: var(--muted); font-weight: 300;
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      padding: 100px 48px;
+    }
+    .cta-section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 6vw, 80px);
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .cta-section h2 span { color: var(--green); }
+    .cta-section p {
+      color: var(--muted); font-size: 16px;
+      max-width: 420px; margin: 0 auto 40px;
+      font-weight: 300; line-height: 1.7;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 48px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; letter-spacing: 2px;
+      color: var(--green);
+    }
+    footer nav a {
+      color: var(--muted); font-size: 13px;
+      text-decoration: none; margin-left: 24px;
+      transition: color 0.2s;
+    }
+    footer nav a:hover { color: var(--text); }
+    .footer-copy {
+      color: var(--muted); font-size: 12px;
+      width: 100%;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 16px 24px; }
+      .hero, section { padding-left: 24px; padding-right: 24px; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+      footer nav a:first-child { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">FITGRADE</div>
+  <a class="nav-cta" href="https://apps.apple.com/app/id6771222221" target="_blank">Download Free</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">Now on the App Store</div>
+  <h1>TRAIN<br/><span>SMARTER.</span><br/>COACH<br/>BETTER.</h1>
+  <p class="hero-sub">AI-generated training plans, client management, injury tracking, and session logging — all in one app built for serious coaches.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="https://apps.apple.com/app/id6771222221" target="_blank">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download on iOS
+    </a>
+    <a class="btn-secondary" href="#features">See features ↓</a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>AI TRAINING PLANS</span><span class="accent">✦</span>
+    <span>CLIENT MANAGEMENT</span><span class="accent">✦</span>
+    <span>INJURY TRACKING</span><span class="accent">✦</span>
+    <span>SESSION LOGGING</span><span class="accent">✦</span>
+    <span>ROLE-BASED ACCESS</span><span class="accent">✦</span>
+    <span>FREE TO START</span><span class="accent">✦</span>
+    <!-- duplicate for seamless loop -->
+    <span>AI TRAINING PLANS</span><span class="accent">✦</span>
+    <span>CLIENT MANAGEMENT</span><span class="accent">✦</span>
+    <span>INJURY TRACKING</span><span class="accent">✦</span>
+    <span>SESSION LOGGING</span><span class="accent">✦</span>
+    <span>ROLE-BASED ACCESS</span><span class="accent">✦</span>
+    <span>FREE TO START</span><span class="accent">✦</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">EVERYTHING YOUR<br/>COACHING NEEDS</h2>
+  <p class="section-sub">Stop juggling spreadsheets and DMs. FitGrade puts your whole operation in one place.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <h3>AI Training Plans</h3>
+      <p>Generate personalized 7-day programs in seconds. The AI accounts for sport, position, injury history, and fitness level.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">👥</span>
+      <h3>Client Management</h3>
+      <p>Add athletes with a simple join code. Track their progress, history, and status from one clean dashboard.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔐</span>
+      <h3>Role-Based Access</h3>
+      <p>Coaches, trainers, and athletes each get their own tailored experience. Everyone sees exactly what they need.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📋</span>
+      <h3>Session Logging</h3>
+      <p>Log every workout, track completions, and maintain a full audit trail. No more guessing what was done.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🩺</span>
+      <h3>Injury Tracking</h3>
+      <p>Document and monitor injuries per client so you never program around a limitation you've forgotten about.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🚀</span>
+      <h3>Free to Pro</h3>
+      <p>Start free with core features. Upgrade to Pro for unlimited clients, advanced analytics, and priority support.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-title">UP AND RUNNING<br/>IN MINUTES</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Create your account</h3>
+      <p>Sign up as a coach or trainer. Set up your profile and coaching preferences in under 2 minutes.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Add your clients</h3>
+      <p>Generate a join code and share it. Athletes link to your roster instantly — no manual entry needed.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Generate AI plans</h3>
+      <p>Select a client, answer a few questions, and get a full personalized 7-day training program in seconds.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Track & iterate</h3>
+      <p>Log sessions, monitor injuries, and use real data to evolve your clients' programs over time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>READY TO<br/><span>LEVEL UP?</span></h2>
+  <p>Download free and generate your first AI training plan today. No credit card required.</p>
+  <a class="btn-primary" href="https://apps.apple.com/app/id6771222221" target="_blank" style="display:inline-flex;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    Download on the App Store
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">FITGRADE</div>
+  <nav>
+    <a href="support.html">Support</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Use</a>
+  </nav>
+  <p class="footer-copy">© 2026 FitGrade. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
