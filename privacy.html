@@ -50,7 +50,7 @@
     <li><strong>Account information:</strong> name, email address, and password. Passwords are handled by Firebase Authentication and are never stored in plain text.</li>
     <li><strong>Profile data:</strong> your role (trainer, coach/parent, or athlete), sport or activity, goals, accent and display preferences, and an optional profile photo or logo.</li>
     <li><strong>Training and health-related data you enter:</strong> body-part grades, targets, injury flags with severity and notes, session logs, and trainer or coach notes. This is information you or your trainer choose to record.</li>
-    <li><strong>Subscription status:</strong> whether your account has an active FitGrade Pro subscription. Payment details are handled by Apple and are never visible to us.</li>
+    <li><strong>Subscription status:</strong> whether your account has an active FitGrade Pro subscription. Payment details are handled by Apple and are never visible to us. To confirm and renew your subscription, our server checks your purchase with Apple using your App Store transaction ID, and we store that ID and your subscription end date with your account.</li>
     <li><strong>Device and usage data:</strong> basic diagnostic information needed to keep the app working.</li>
   </ul>
 
@@ -63,7 +63,7 @@
   </ul>
 
   <h2>AI-Generated Plans</h2>
-  <p>When you generate an AI training plan or session prep, FitGrade sends the information needed for that request to Anthropic's Claude API: sport or activity, age, body-part grades, targets, injury flags and notes, and any trainer, coach, or athlete notes you typed. We do not send names or email addresses. Notes are free text, so please do not type personal identifiers into them. Anthropic processes the request to return a response and, under its API terms, does not use API inputs to train its models by default.</p>
+  <p>AI features are part of FitGrade Pro. When you generate an AI training plan or session prep, FitGrade sends the information needed for that request to Anthropic's Claude API: sport or activity, age, body-part grades, targets, injury flags and notes, and any trainer, coach, or athlete notes you typed. The app asks for your consent before the first request. We do not send names or email addresses. We keep a per-day request count for your account to enforce usage limits. Notes are free text, so please do not type personal identifiers into them. Anthropic processes the request to return a response and, under its API terms, does not use API inputs to train its models by default.</p>
 
   <h2>Data Storage and Security</h2>
   <p>Your data is stored with Google Firebase (Cloud Firestore, Authentication, and Cloud Storage for images). Data is encrypted in transit and at rest. Access to your data within the app is limited by your account and role.</p>
